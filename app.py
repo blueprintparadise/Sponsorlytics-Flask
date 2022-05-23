@@ -1,11 +1,12 @@
 import os
 import sys
-
+import sys
+#sys.path.insert(0, './yolov5')
 import torch
-
 # Model
-model = torch.hub.load('ultralytics/yolov5', 'yolov5s')  # or yolov5n - yolov5x6, custom
-
+#model = torch.hub.load('ultralytics/yolov5', 'yolov5s')  # or yolov5n - yolov5x6, custom
+#model = torch.load(r'models\model.pt')
+model = torch.hub.load('ultralytics/yolov5', 'custom', path=r'C:\Users\rhira\Desktop\Sponsorlytix_Flask_Team\models\model.pt', force_reload=True)
 # Images
 #img = r'C:\Users\rhira\Desktop\dlf/1.jpg'  # or file, Path, PIL, OpenCV, numpy, list
 
