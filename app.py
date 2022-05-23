@@ -1,3 +1,4 @@
+import json
 import os
 import sys
 import sys
@@ -92,17 +93,9 @@ def predict():
         preds = model_predict(img, model)
 
         # Process your result for human
-#        pred_proba = "{:.3f}".format(np.amax(preds))    # Max probability
-#        pred_class = decode_predictions(preds, top=1)   # ImageNet Decode
+        report = preds.pandas().xyxy[0].to_json(orient="records")
 
- #       result = str(pred_class[0][0][1])               # Convert to string
- #       result = result.replace('_', ' ').capitalize()
-        result = preds
-        # Serialize the result, you can add additional fields
-        #jsonify(result=result)
-        result.show()
-        print(result)
-        return str(result)
+        return jsonify(result=str(report))
 
     return None
 
