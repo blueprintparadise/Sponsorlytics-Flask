@@ -1,5 +1,9 @@
 # Deploy Keras Model with Flask as Web App in 10 Minutes
 # model = torch.hub.load('ultralytics/yolov5', 'custom', path=r'C:\Users\rhira\Desktop\Sponsorlytix_Flask_Team\models\model.pt', force_reload=True)
+
+##Download pre-trained model - https://drive.google.com/file/d/1NLekyL_DYSH7se7S0UA1_qfRWCQtW9AG/view?usp=sharing
+
+
 [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](http://perso.crans.org/besson/LICENSE.html)
 [![](https://img.shields.io/badge/python-3.5%2B-green.svg)]()
 ![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)
