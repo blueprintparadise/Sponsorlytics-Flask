@@ -1,33 +1,25 @@
+import base64
 import json
 import os
 import sys
 import sys
 #sys.path.insert(0, './yolov5')
+from io import BytesIO
+
+import matplotlib.pyplot as plt
 import torch
 # Model
-#model = torch.hub.load('ultralytics/yolov5', 'yolov5s')  # or yolov5n - yolov5x6, custom
-#model = torch.load(r'models\model.pt')
-model = torch.hub.load('ultralytics/yolov5', 'custom', path=r'C:\Users\rhira\Desktop\Sponsorlytix_Flask_Team\models\model.pt', force_reload=True)
-# Images
-#img = r'C:\Users\rhira\Desktop\dlf/1.jpg'  # or file, Path, PIL, OpenCV, numpy, list
+from PIL import Image
 
-# Inference
-#results = model(img)
-
-# Results
-#results.show()  # or .show(), .save(), .crop(), .pandas(), etc.
+model = torch.hub.load('ultralytics/yolov5', 'yolov5s')  # or yolov5n - yolov5x6, custom
+# model = torch.load(r'yolov5s.pt')
+# model = torch.hub.load('ultralytics/yolov5', 'custom', path=r'D:\Sponsorlytix\Sponsorlytix_Flask_Team\best.pt', force_reload=True)
 
 # Flask
 from flask import Flask, redirect, url_for, request, render_template, Response, jsonify, redirect
 from werkzeug.utils import secure_filename
 from gevent.pywsgi import WSGIServer
 
-# TensorFlow and tf.keras
-import tensorflow as tf
-from tensorflow import keras
-
-from tensorflow.keras.applications.imagenet_utils import preprocess_input, decode_predictions
-from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 
 # Some utilites
@@ -63,14 +55,10 @@ def model_predict(img, model):
 
     # Preprocessing the image
     x = image.img_to_array(img)
-    # x = np.true_divide(x, 255)
-    #x = np.expand_dims(x, axis=0)
 
-    # Be careful how your trained model deals with the input
-    # otherwise, it won't make correct prediction!
-    #x = preprocess_input(x, mode='tf')
+    im = Image.fromarray((x * 255).astype(np.uint8))
 
-    preds = model(x)
+    preds = model(im)
     return preds
 
 
@@ -93,6 +81,8 @@ def predict():
         preds = model_predict(img, model)
 
         # Process your result for human
+        preds.render()  # updates results.imgs with boxes and labels
+        crops = preds.crop(save=True)
         report = preds.pandas().xyxy[0].to_json(orient="records")
 
         return jsonify(result=str(report))
